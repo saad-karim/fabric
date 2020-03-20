@@ -83,8 +83,8 @@ func loadLib(lib, pin, label string) (*pkcs11.Ctx, uint, *pkcs11.SessionHandle, 
 
 func (csp *impl) getSession() (session pkcs11.SessionHandle) {
 	select {
-	case session = <-csp.sessions:
-		logger.Debugf("Reusing existing pkcs11 session %+v on slot %d\n", session, csp.slot)
+	// case session = <-csp.sessions:
+	// 	logger.Debugf("Reusing existing pkcs11 session %+v on slot %d\n", session, csp.slot)
 
 	default:
 		// cache is empty (or completely in use), create a new session
