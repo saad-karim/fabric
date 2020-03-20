@@ -16,6 +16,7 @@ import (
 	"math/big"
 	"sync"
 
+	"github.com/kubernetes/kubernetes/pkg/kubelet/kubeletconfig/util/log"
 	"github.com/miekg/pkcs11"
 	"go.uber.org/zap/zapcore"
 )
@@ -88,6 +89,11 @@ func (csp *impl) getSession() (session pkcs11.SessionHandle) {
 		if err != nil {
 			logger.Errorf("Get session info failed [%s], getting new session", err)
 			session = csp.createSession()
+		} else {
+			if info.State == uint(0) {
+				log.Errorf("State is 0, getting new session", err)
+				session = csp.createSession()
+			}
 		}
 
 		logger.Debugf("Session info: %+v\n", info)
